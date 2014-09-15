@@ -10,8 +10,11 @@ Usage: ./tiler.sh <width> <height> [--fadeout|-f] -- <files>
 e.g. ./tiler.sh 160x160 -f -- file1.png file2.png
 ```
 
-Examples
+Example
 --------
+```
+./tiler.sh 128 64 -f -- vetrik_1.png
+```
 
 ### Original
 ![original](https://github.com/mnn/Tiler/raw/master/example/vetrik_1.png)

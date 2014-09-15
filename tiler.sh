@@ -8,7 +8,7 @@
 
 function usage {
 	echo "Usage: $0 <width> <height> [--fadeout|-f] -- <files>"
-	echo "e.g. $0 160x160 -f -- file1.png file2.png"
+	echo "e.g. $0 160 160 -f -- file1.png file2.png"
 	echo -e "\t[fadeout]\tcreate fade-out border"
 }
 
@@ -16,6 +16,14 @@ function help {
 	echo
 	echo "Tiler script created by monnef (http://monnef.tk)"
 	echo
+}
+
+function ensureNumber {
+	re='^[0-9]+$'
+	if ! [[ $1 =~ $re ]] ; then
+   		echo "'$1' is not a number" >&2
+   		exit 1
+	fi
 }
 
 if [ "$#" -eq 1 -a \( "$1" == "--help" -o "$1" == "-h" \) ]; then
@@ -30,6 +38,8 @@ if [ "$#" -lt "3" ]; then
 	exit 1
 fi
 
+ensureNumber "$1"
+ensureNumber "$2"
 width="$1"
 height="$2"
 shift
@@ -70,7 +80,7 @@ for i in "$@"; do
 		convert -background none -size "${width}x${height}" tile:$i "$outFile"
 		if [ "$fadeout" == "true" ]; then
 			maskFile="$outDir/mask_current.png"
-			convert "$outFile" -alpha Extract "$maskFile"
+			convert "$outFile" -set colorspace RGB -alpha Extract "$maskFile"
 
 			maskCompositeFile="$outDir/mask_composite.png"
 			convert "$genericMaskFile" "$maskFile" -compose Multiply -composite "$maskCompositeFile"
