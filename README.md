@@ -24,3 +24,11 @@ Example
 
 ### Tiled with border
 ![tiled_bordered](https://github.com/mnn/Tiler/raw/master/example/vetrik_1_tile_with_border.png)
+
+Dependencies
+------------
+This script requires ImageMagick, bash and readlink.
+
+Notes
+-----
+Some viewers don't show properly alpha channel - e.g. XnView. Script is tested with ImageMagick version 6.8.9, other version may have different behaviour (some previous versions did process alpha channel differently).
