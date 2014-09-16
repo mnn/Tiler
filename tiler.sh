@@ -26,6 +26,8 @@ function ensureNumber {
 	fi
 }
 
+myDir=$(readlink -f $(dirname "$0"))
+
 if [ "$#" -eq 1 -a \( "$1" == "--help" -o "$1" == "-h" \) ]; then
 	help
 	usage
@@ -71,7 +73,7 @@ mkdir -p "$foutDir"
 
 genericMaskFile="$foutDir/mask.png"
 if [ "$fadeout" == "true" ]; then
-	./maskCreator.sh "$width" "$height" "$genericMaskFile"
+	"$myDir"/maskCreator.sh "$width" "$height" "$genericMaskFile"
 fi
 
 for i in "$@"; do
@@ -83,7 +85,7 @@ for i in "$@"; do
 			convert "$outFile" -set colorspace RGB -alpha Extract "$maskFile"
 
 			maskCompositeFile="$outDir/mask_composite.png"
-			convert "$genericMaskFile" "$maskFile" -compose Multiply -composite "$maskCompositeFile"
+			convert "$genericMaskFile" "$maskFile" -compose Multiply -set colorspace Gray -alpha Remove -composite png8:"$maskCompositeFile"
 
 			foutFile="$foutDir"/"$i"
 			convert "$outFile" "$maskCompositeFile" -alpha Off -compose CopyOpacity -composite "$foutFile"
